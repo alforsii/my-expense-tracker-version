@@ -1,12 +1,13 @@
 import React from "react";
+import { toFixedDecs } from "../../services/helperFunctions/MyHelpers";
 
 export const Balance = ({ balance }) => {
   return (
     <>
-      <h4>Your Balance</h4>
-      <h1 id="balance" className={`money ${balance > 0 ? "plus" : "minus"}`}>
-        {`${balance}`}
-      </h1>
+      <h6>Your Balance</h6>
+      <h5 id="balance" className={`${balance > 0 ? "green-text" : "red-text"}`}>
+        {`${balance > 0 ? "+" : "-"}`}${toFixedDecs(balance)}
+      </h5>
     </>
   );
 };

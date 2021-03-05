@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import "./App.css";
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
+import { isLoggedIn, updateState } from "./authRedux/actions/authActions";
+import AuthSignIn from "./components/auth/AuthSignIn";
+
 import MainTransactions from "./components/transactions/MainTransactions";
-import { AUTH_SERVICE } from "./services/auth/AuthServices";
 
-function App() {
-  const [user, setUser] = useState(null);
-
-  const isLoggedIn = async () => {
-    const { data } = await AUTH_SERVICE.isLoggedIn();
-    if (data?.user) {
-      setUser(data.user);
-    }
-  };
-
+function App({ loggedIn, isLoggedIn, user, updateState }) {
   useEffect(() => {
     isLoggedIn();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -28,32 +21,28 @@ function App() {
           path="/login"
           exact
           render={(props) =>
-            !user ? (
-              <Login {...props} setUser={setUser} />
+            !loggedIn ? (
+              <>
+                <AuthSignIn {...props} updateState={updateState} />
+              </>
             ) : (
               <Redirect to="/transactions" />
             )
           }
         />
-        <Route
-          path="/signup"
-          exact
-          render={(props) =>
-            !user ? (
-              <Signup {...props} setUser={setUser} />
-            ) : (
-              <Redirect to="/transactions" />
-            )
-          }
-        />
+
         <Route
           path="/transactions"
           exact
           render={(props) =>
-            user ? (
-              <MainTransactions {...props} user={user} setUser={setUser} />
+            loggedIn ? (
+              <MainTransactions
+                {...props}
+                user={user}
+                updateState={updateState}
+              />
             ) : (
-              <Redirect to="/signup" />
+              <Redirect to="/login" />
             )
           }
         />
@@ -62,4 +51,14 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user,
+    loggedIn: state.authReducer.loggedIn,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  isLoggedIn: () => dispatch(isLoggedIn()),
+  updateState: (data) => dispatch(updateState(data)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);

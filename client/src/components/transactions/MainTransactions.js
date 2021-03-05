@@ -6,7 +6,7 @@ import { IncomeExpenses } from "./IncomeExpenses";
 import { AUTH_TRANSACTIONS } from "../../services/transactions/AuthTransactions";
 import { AUTH_SERVICE } from "../../services/auth/AuthServices";
 
-export default function MainTransactions({ user, setUser, history }) {
+export default function MainTransactions({ user, updateState, history }) {
   const [income, setIncome] = useState();
   const [expense, setExpense] = useState();
   const [transactions, setTransactions] = useState([]);
@@ -23,7 +23,7 @@ export default function MainTransactions({ user, setUser, history }) {
   // Cleanup
   useEffect(() => {
     return () => {
-      setUser(null);
+      updateState({ user: null, loggedIn: false });
       setTransactions([]);
       setExpense(0);
       setIncome(0);
@@ -55,7 +55,7 @@ export default function MainTransactions({ user, setUser, history }) {
   const handleLogout = async () => {
     try {
       await AUTH_SERVICE.logout();
-      history.push("/signup");
+      history.push("/login");
     } catch (err) {
       console.log(err);
     }
@@ -64,13 +64,12 @@ export default function MainTransactions({ user, setUser, history }) {
   return (
     <div className="App">
       <div className="container">
-        <h2>
-          <span style={{ color: "purple" }}>
+        <h5>
+          <span className="purple-text">
             {user.firstName} {user.lastName}'s
           </span>{" "}
           Expense tracker
-        </h2>
-        <Balance balance={income + expense} />
+        </h5>
 
         <IncomeExpenses income={income} expense={expense} />
 
@@ -79,8 +78,14 @@ export default function MainTransactions({ user, setUser, history }) {
           setTransactions={setTransactions}
         />
       </div>
-      <div>
-        <button onClick={() => handleLogout()}>Logout</button>
+      <div style={{ paddingRight: 20 }}>
+        <Balance balance={income + expense} />
+        <button
+          className="btn red waves-effect waves-red"
+          onClick={() => handleLogout()}
+        >
+          Logout
+        </button>
         <AddTransaction
           setTransactions={setTransactions}
           transactions={transactions}

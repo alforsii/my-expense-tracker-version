@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { AUTH_SERVICE } from "../../services/auth/AuthServices";
 
-export default function Login({ setUser }) {
+export default function Login({ updateState, setShowForm }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -29,38 +28,59 @@ export default function Login({ setUser }) {
     e.preventDefault();
     try {
       const { data } = await AUTH_SERVICE.login(form);
-      setUser(data.user);
+      updateState({ user: data.user, loggedIn: true });
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <div>
-      <h2>Login</h2>
-      <Link to="/signup">Go to signup</Link>
-      <form onSubmit={handleLoginSubmit}>
-        <label>
-          Email
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleLoginInputs}
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleLoginInputs}
-          />
-        </label>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <form onSubmit={handleLoginSubmit}>
+      <div className="row">
+        <div className="col s12 m6 offset-m3">
+          <div className="card-panel z-depth-5 ">
+            <div className="row">
+              <div className="input-field col s12 m10 offset-m1">
+                <h4>Login</h4>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="email"
+                  className="validate"
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleLoginInputs}
+                />
+                <label htmlFor="email">Email</label>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleLoginInputs}
+                  className="validate"
+                />
+                <label htmlFor="password">Password</label>
+              </div>
+              <div className="col s8 offset-s2">
+                <button type="submit" className="btn blue">
+                  Login
+                </button>
+                <span>Not registered yet?</span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setShowForm(false)}
+                  className="red-text"
+                >
+                  {" Signup"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   );
 }

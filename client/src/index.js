@@ -1,14 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { reduxStore } from "./authRedux/store";
 import App from "./App";
+// import 'materialize-css'; // It installs the JS asset only
+import "materialize-css/dist/css/materialize.min.css";
+
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={reduxStore}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

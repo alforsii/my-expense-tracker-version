@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { AUTH_SERVICE } from "../../services/auth/AuthServices";
 
-export default function Signup({ setUser }) {
+export default function Signup({ updateState, setShowForm }) {
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -33,58 +32,82 @@ export default function Signup({ setUser }) {
     e.preventDefault();
     try {
       const { data } = await AUTH_SERVICE.signup(form);
-      setUser(data.user);
+      updateState({ user: data.user, loggedIn: true });
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
-    <div>
-      <h2>Signup</h2>
-      <Link to="/login">Go to Login</Link>
-      <form onSubmit={handleSignupSubmit}>
-        <label>
-          Email
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleSignupInputs}
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleSignupInputs}
-          />
-        </label>
-        <label>
-          First Name
-          <input
-            type="firstName"
-            name="firstName"
-            placeholder="First name"
-            value={form.firstName}
-            onChange={handleSignupInputs}
-          />
-        </label>
-        <label>
-          Last Name
-          <input
-            type="lastName"
-            name="lastName"
-            placeholder="Last name"
-            value={form.lastName}
-            onChange={handleSignupInputs}
-          />
-        </label>
-        <button type="submit">Signup</button>
-      </form>
-    </div>
+    <form onSubmit={handleSignupSubmit}>
+      <div className="row">
+        <div className="col s12 m6 offset-m3">
+          <div className="card-panel z-depth-5 ">
+            <div className="row">
+              <div className="input-field col s12 m10 offset-m1">
+                <h4>Signup</h4>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="firstName"
+                  className="validate"
+                  type="text"
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={handleSignupInputs}
+                />
+                <label htmlFor="firstName">First Name</label>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="lastName"
+                  className="validate"
+                  type="text"
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={handleSignupInputs}
+                />
+                <label htmlFor="lastName">Last Name</label>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="email"
+                  className="validate"
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleSignupInputs}
+                />
+                <label htmlFor="email">Email</label>
+              </div>
+              <div className="input-field col s12 m10 offset-m1">
+                <input
+                  id="password"
+                  className="validate"
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleSignupInputs}
+                />
+                <label htmlFor="password">Password</label>
+              </div>
+              <div className="col s8 offset-s2">
+                <button type="submit" className="btn red">
+                  Submit
+                </button>
+                <span>Already registered?</span>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setShowForm(true)}
+                  className="blue-text"
+                >
+                  {" Login"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   );
 }

@@ -19,12 +19,12 @@ export const AddTransaction = ({ transactions, setTransactions }) => {
       name: form.name,
       amount: form.amount * 1,
     });
-    setTransactions([...transactions, data.transaction]);
+    setTransactions([data.transaction, ...transactions]);
     setForm({ name: "", amount: "" });
   };
   return (
     <>
-      <h3>Add new transaction</h3>
+      <h5>Add new transaction</h5>
       <form id="form" onSubmit={addTransaction}>
         <div className="form-control">
           <label htmlFor="name">Name</label>
@@ -51,7 +51,7 @@ export const AddTransaction = ({ transactions, setTransactions }) => {
             onChange={onChange}
           />
         </div>
-        <button type="submit" className="btn">
+        <button type="submit" className="btn bg-purple">
           Add transaction
         </button>
       </form>

@@ -29,6 +29,10 @@ body {
   width: 50%;
   min-width: 350px;
 }
+.transactions {
+  overflow: scroll;
+  height: 400px;
+}
 
 h1 {
   letter-spacing: 1px;
@@ -49,10 +53,9 @@ h4 {
 .inc-exp-container {
   background-color: #fff;
   box-shadow: var(--box-shadow);
-  padding: 20px;
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  /* margin: 20px 0; */
 }
 
 .inc-exp-container > div {
@@ -95,15 +98,17 @@ input[type="number"] {
 
 .btn {
   cursor: pointer;
-  background-color: #9c88ff;
   box-shadow: var(--box-shadow);
-  color: #fff;
   border: 0;
   display: block;
   font-size: 16px;
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+}
+.bg-purple {
+  background-color: #9c88ff;
+  color: #fff;
 }
 
 .btn:focus,
@@ -126,6 +131,9 @@ input[type="number"] {
   position: relative;
   padding: 10px;
   margin: 10px 0;
+}
+.box-shadow {
+  box-shadow: var(--box-shadow);
 }
 
 .list li.plus {
