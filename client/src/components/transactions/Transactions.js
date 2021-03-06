@@ -4,6 +4,7 @@ import {
   toFixedDecs,
 } from "../../services/helperFunctions/MyHelpers";
 import MyDropdown from "./MyDropdown";
+import { Divider } from "react-materialize";
 
 export const Transactions = ({ transactions, setTransactions }) => {
   const deleteTransaction = async (id) => {
@@ -18,15 +19,12 @@ export const Transactions = ({ transactions, setTransactions }) => {
   return (
     <>
       <h5>Transactions</h5>
-      <hr />
+      <Divider />
 
       <ul className="transactions">
         {transactions.length
           ? transactions.map((transaction) => (
-              <div
-                key={transaction._id}
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
+              <div key={transaction._id}>
                 <label
                   style={{
                     width: "100%",
@@ -35,28 +33,36 @@ export const Transactions = ({ transactions, setTransactions }) => {
                   }}
                   htmlFor={`TextInput-${transaction._id}`}
                 >
-                  <span className="black-text darken-4">
-                    {transaction.name}
-                  </span>
+                  <i className="black-text darken-4">{transaction.name}</i>
 
-                  <span>
+                  <i>
                     {MyMoment(transaction.createdAt, "MMM Do YYYY, h:mm a")}
-                  </span>
-                  <span
-                    className={
-                      transaction.amount > 0 ? "green-text" : "red-text"
-                    }
+                  </i>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      minWidth: 80,
+                    }}
                   >
-                    {`${transaction.amount > 0 ? "+" : "-"}$${toFixedDecs(
-                      transaction.amount
-                    )}`}
-                  </span>
+                    <MyDropdown
+                      transaction={transaction}
+                      deleteTransaction={() =>
+                        deleteTransaction(transaction._id)
+                      }
+                      id={transaction._id}
+                    />
+                    <span
+                      className={
+                        transaction.amount > 0 ? "green-text" : "red-text"
+                      }
+                    >
+                      {`${transaction.amount > 0 ? "+" : "-"}$${toFixedDecs(
+                        transaction.amount
+                      )}`}
+                    </span>
+                  </div>
                 </label>
-                <MyDropdown
-                  transaction={transaction}
-                  deleteTransaction={() => deleteTransaction(transaction._id)}
-                  id={transaction._id}
-                />
               </div>
             ))
           : "You have no transactions"}

@@ -1,4 +1,4 @@
-import { Dropdown, Icon } from "react-materialize";
+import { Divider, Dropdown, Icon } from "react-materialize";
 import { Link } from "react-router-dom";
 
 const flexSpaceBetween = {
@@ -20,7 +20,7 @@ export default function MyDropdown({ id, deleteTransaction, transaction }) {
         container: null,
         coverTrigger: true,
         hover: false,
-        inDuration: 150,
+        inDuration: 250,
         onCloseEnd: null,
         onCloseStart: null,
         onOpenEnd: null,
@@ -28,7 +28,7 @@ export default function MyDropdown({ id, deleteTransaction, transaction }) {
         outDuration: 250,
       }}
       trigger={
-        <li style={{ margin: 5 }} className="black-text">
+        <li style={{}} className="black-text">
           ...
         </li>
       }
@@ -43,10 +43,10 @@ export default function MyDropdown({ id, deleteTransaction, transaction }) {
         <Icon>edit</Icon>
         <label>Edit</label>
       </Link>
-
+      <Divider />
       <button
         style={flexSpaceBetween}
-        className="btn-flat"
+        className="btn-flat red-text"
         onClick={deleteTransaction}
       >
         <Icon>delete</Icon>

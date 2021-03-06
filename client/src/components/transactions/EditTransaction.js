@@ -10,11 +10,14 @@ export default function EditTransaction({ history }) {
 
   //   Cleanup on unmount
   useEffect(() => {
+    document.getElementsByTagName("body")[0].style.backgroundColor = "#eae9ee";
     return () => {
       setForm({
         name: "",
         amount: "",
       });
+      document.getElementsByTagName("body")[0].style.backgroundColor =
+        "#f7f7f7";
     };
   }, []);
 
