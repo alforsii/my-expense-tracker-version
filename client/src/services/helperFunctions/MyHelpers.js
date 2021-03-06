@@ -1,3 +1,4 @@
+import moment from "moment";
 export const myUTC = new Date().getUTCDate();
 
 export const toFixedDecs = (value, decimals = 2) => {
@@ -15,4 +16,8 @@ export const toFixedDecs = (value, decimals = 2) => {
     return "0";
   }
   return parsed;
+};
+
+export const MyMoment = (date, format) => {
+  return moment(date).utc(myUTC).format(format);
 };
