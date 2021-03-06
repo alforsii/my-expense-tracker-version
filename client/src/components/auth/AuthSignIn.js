@@ -13,7 +13,7 @@ export default function AuthSignIn({ updateState }) {
         SignIn
       </button>
 
-      <div id="sign-in" className="scale-transition ">
+      <div id="sign-in" className="scale-transition scale-out">
         {showForm ? (
           <Login setShowForm={setShowForm} updateState={updateState} />
         ) : (

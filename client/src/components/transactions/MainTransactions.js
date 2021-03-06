@@ -23,7 +23,6 @@ export default function MainTransactions({ user, updateState, history }) {
   // Cleanup
   useEffect(() => {
     return () => {
-      updateState({ user: null, loggedIn: false });
       setTransactions([]);
       setExpense(0);
       setIncome(0);
@@ -56,6 +55,7 @@ export default function MainTransactions({ user, updateState, history }) {
     try {
       await AUTH_SERVICE.logout();
       history.push("/login");
+      updateState({ user: null, loggedIn: false });
     } catch (err) {
       console.log(err);
     }
@@ -72,7 +72,6 @@ export default function MainTransactions({ user, updateState, history }) {
         </h5>
 
         <IncomeExpenses income={income} expense={expense} />
-
         <Transactions
           transactions={transactions}
           setTransactions={setTransactions}
