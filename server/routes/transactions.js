@@ -5,7 +5,9 @@ const Transaction = require("../models/Transaction.model");
 // GET | Transactions
 router.get("/", async (req, res) => {
   try {
-    const transactions = await Transaction.find({ user: req.user._id });
+    const transactions = await Transaction.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json({ transactions, message: "success" });
   } catch (err) {
     console.log(err);
@@ -26,6 +28,10 @@ router.get("/transaction/:id", async (req, res) => {
 router.post("/transaction/add", async (req, res) => {
   try {
     req.body.user = req.user._id;
+    console.log(
+      "🚀 ~ file: transactions.js ~ line 29 ~ router.post ~ req.body",
+      req.body
+    );
     const transaction = await Transaction.create(req.body);
     res.status(200).json({
       transaction,
